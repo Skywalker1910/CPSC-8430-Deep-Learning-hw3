@@ -31,10 +31,9 @@ The **Spoken-SQuAD** dataset was preprocessed using **BertTokenizerFast**. Key p
 - Tokenizing the context and questions.
 - Setting the **max sequence length** to **384** tokens and **document stride** to **128** for overlapping contexts.
 - Generating offset mappings to link character positions to token positions.
-- Filtering out examples where the answers were truncated.
 
 ## Model Details
-We used **BERT-Base** (`bert-base-uncased`), which has **12 encoder layers** and **110 million parameters**. This model provides a good balance between complexity and feasibility, offering significantly more power than smaller BERT variants while being manageable for training.
+I used **BERT-Base** (`bert-base-uncased`), which has **12 encoder layers** and **110 million parameters**. This model provides a good balance between complexity and feasibility, offering significantly more power than smaller BERT variants while being manageable for training.
 
 ### Customization
 - **Fine-Tuning**: The last **4 encoder layers** of the model were unfrozen for fine-tuning to adapt BERT to the Spoken-SQuAD QA task.
@@ -75,34 +74,29 @@ The model was evaluated on a validation set using the following metrics:
 
 The results showed moderate improvements over smaller models, indicating that BERT-Base was able to better manage the complexity of spoken language QA.
 
-## Recommendations for Future Work
-- **Unfreeze More Layers**: Consider unfreezing additional layers for more extensive fine-tuning.
-- **Use a Larger Model**: If computational resources are available, using **BERT-Large** could yield further performance gains.
-- **Train on Full Dataset**: Training on the entire Spoken-SQuAD dataset could improve model generalization.
-- **More Epochs**: Training for **6-8 epochs** may allow the model to learn more intricate patterns.
-
-## Conclusion
-This implementation demonstrates the power of **BERT-Base** for QA on the Spoken-SQuAD dataset, achieving moderate performance improvements in **F1 Score** and **WER**. Leveraging techniques like AMP, gradient accumulation, and selective fine-tuning allowed the training to be both effective and manageable. Future enhancements could include unfreezing more layers or switching to a larger model.
-
 ## Folder Structure
 ```
-.
-├── data
-│   └── spoken_squad.json  # Preprocessed dataset
-├── models
-│   └── bert_base_model.pt # Trained model weights
-├── train.py               # Training script
-├── evaluate.py            # Evaluation script
-├── requirements.txt       # Dependencies
-├── README.md              # Project documentation
-└── utils
-    └── preprocessing.py   # Preprocessing functions
+project/
+│
+├── data/
+│   ├── spoken_train.json
+│   └── spoken_dev.json
+│
+├── preprocessing/
+│   └── bert_model_preprocessing.py
+│
+├── training/
+│   ├── bert_fine_tuned_model.py
+│   └── bert_model_with_scheduler.py
+│
+├── evaluation/
+│   └── bert_with_doc_stride.py
+│
+├── utils/
+│   └── dataset_utils.py
+│
+├── main.py
+└── requirements.txt
 ```
-
-## License
-This project is licensed under the MIT License.
-
-## Contact
-For questions or contributions, please contact **[Your Name]** at **[your.email@example.com]**.
 
 
